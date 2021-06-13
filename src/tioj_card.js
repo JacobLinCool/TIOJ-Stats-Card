@@ -10,7 +10,7 @@ function tioj_card(data, parameters) {
         parameters.border / 2
     }" y="${parameters.border / 2}" rx="${parameters.border_radius}" />
     <g id="head">
-        <g id="icon" transform="translate(20, 18)">${tioj_icon(30, 30)}</g>
+        <g id="icon" transform="translate(20, 17)">${tioj_icon(30, 30)}</g>
         <text id="username" transform="translate(65, 40)" style="font-size: 24px;">${data.username}</text>
         <text id="rank" class="sub" text-anchor="end" transform="translate(480, 40)" style="font-size: 18px;">#${data.profile.ranking}</text>
     </g>
