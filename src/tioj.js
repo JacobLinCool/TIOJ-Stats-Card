@@ -1,5 +1,6 @@
 const baseurl = "https://tioj.ck.tp.edu.tw";
 let DEBUG = {
+    _TOTAL: null,
     user_data: null,
     user_activity: null,
     rank_page: {},
@@ -174,34 +175,51 @@ function language(raw) {
 
 async function tioj_data(username) {
     DEBUG.GENERATOR_START_TIME = new Date();
-    const rank = await CACHE.get("RANKS", { type: "json" });
+    let start_time = Date.now();
+    const rank = await fetch("https://raw.githubusercontent.com/JacobLinCool/TIOJ-Cache/cache/_ranks.json").then((r) => r.json());
+    console.log("Cached Rank", rank);
+    let in_cache = !!rank.filter((x) => x.name === username.toLowerCase()).length;
     let user, activity;
-    if (rank[username.toLowerCase()] && rank[username.toLowerCase()] <= 10) {
-        user = await CACHE.get("USER_" + username.toLowerCase(), { type: "json" });
-        activity = user.activity;
+    if (in_cache) {
+        let data = await fetch(`https://raw.githubusercontent.com/JacobLinCool/TIOJ-Cache/cache/${username.toLowerCase()}.json`).then((r) => r.json());
+        console.log("Cached Data", data);
+        user = {
+            name: data.name,
+            username: data.username,
+            about: data.about,
+            avatar: data.avatar,
+            user_id: data.user_id,
+            problems: data.problems,
+            rank: data.rank,
+        };
+        activity = data.activity;
     } else {
         user = await user_data(username);
         activity = await user_activity(user.user_id);
     }
 
     DEBUG.GENERATOR_END_TIME = new Date();
-    return {
-        username: user.username || null,
-        profile: {
-            user_id: Number(user.user_id),
-            name: user.name || null,
-            avatar: baseurl + user.avatar || null,
-            about: user.about,
-            ranking: rank[user.username] ? rank[user.username] : "100+",
-        },
-        problem: {
-            total: user.problems.success.length + user.problems.warning.length + user.problems.muted.length,
-            solved: user.problems.success.length,
-            tried: user.problems.success.length + user.problems.warning.length,
-        },
-        activity: activity,
-        _DEBUG: DEBUG,
-    };
+    DEBUG._TOTAL = DEBUG.GENERATOR_END_TIME - DEBUG.GENERATOR_START_TIME;
+
+    if (user.username === undefined) return null;
+    else
+        return {
+            username: user.username || null,
+            profile: {
+                user_id: Number(user.user_id),
+                name: user.name || null,
+                avatar: baseurl + user.avatar || null,
+                about: user.about,
+                ranking: in_cache ? user.rank : "1000+",
+            },
+            problem: {
+                total: user.problems.success.length + user.problems.warning.length + user.problems.muted.length,
+                solved: user.problems.success.length,
+                tried: user.problems.success.length + user.problems.warning.length,
+            },
+            activity: activity,
+            _DEBUG: DEBUG,
+        };
 }
 
 export { tioj_data, user_data, user_activity, rank_page };
