@@ -148,7 +148,7 @@ async function rank_page(n = 1) {
     let map = {};
     [
         ...page.matchAll(
-            /<tr>\s*?<td>(\d+?)<\/td>\s*?<td><a href="\/users\/([^]+?)"><img class="img-rounded" src="[^]*?" alt="[^]*?" \/><\/a><\/td>\s*?<td><a href="\/users\/[^]*?">[^]*?<\/a><\/td>/g
+            /<tr>\s*?<td>(\d+?)<\/td>\s*?<td><a href="\/users\/([^]+?)"><img class="img-rounded" src(?:=")?[^]*?"?(?: alt=")?[^]*?(?:" )?\/><\/a><\/td>\s*?<td><a href="\/users\/[^]*?">[^]*?<\/a><\/td>/g
         ),
     ].forEach((row) => {
         map[row[2]] = Number(row[1]);
@@ -174,11 +174,15 @@ function language(raw) {
 
 async function tioj_data(username) {
     DEBUG.GENERATOR_START_TIME = new Date();
-    const pages = Promise.all([rank_page(1), rank_page(2), rank_page(3), rank_page(4)]);
-    const user = await user_data(username);
-    const activity = await user_activity(user.user_id);
-
-    const rank = (await pages).reduce((a, b) => Object.assign({}, a, b), {});
+    const rank = await CACHE.get("RANKS", { type: "json" });
+    let user, activity;
+    if (rank[username.toLowerCase()] && rank[username.toLowerCase()] <= 10) {
+        user = await CACHE.get("USER_" + username.toLowerCase(), { type: "json" });
+        activity = user.activity;
+    } else {
+        user = await user_data(username);
+        activity = await user_activity(user.user_id);
+    }
 
     DEBUG.GENERATOR_END_TIME = new Date();
     return {
@@ -200,4 +204,4 @@ async function tioj_data(username) {
     };
 }
 
-export { tioj_data };
+export { tioj_data, user_data, user_activity, rank_page };

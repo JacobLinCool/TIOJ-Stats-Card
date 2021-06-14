@@ -4,11 +4,15 @@ import { tioj_data } from "./tioj.js";
 import { cors_header } from "./header.js";
 import { tioj_card } from "./tioj_card.js";
 import { not_found_card } from "./404.js";
+import { handle_scheduled, cache_ranks, cache_users } from "./trigger.js";
 
 async function main() {
     addEventListener("fetch", (event) => {
         let handler = handle_request(event);
         event.respondWith(handler);
+    });
+    addEventListener("scheduled", (event) => {
+        event.waitUntil(handle_scheduled(event));
     });
 }
 
@@ -20,8 +24,13 @@ async function handle_request(event) {
     }
 
     // for favicon
-    if (request.url == "https://tioj-card.jacob.workers.dev/favicon.ico") {
-        return Response.redirect("https://raw.githubusercontent.com/JacobLinCool/tioj-stats-card/main/favicon/tioj.ico", 301);
+    if (request.url == "https://tioj.card.workers.dev/favicon.ico") {
+        return Response.redirect("https://raw.githubusercontent.com/Stats-Card/tioj-stats-card/main/favicon/tioj.ico", 301);
+    }
+
+    // for testing cache
+    if (request.url.includes("CACHE_TEST")) {
+        if (request.url.includes("RANK")) return await cache_ranks();
     }
 
     const final_parameters = parameters(new URL(request.url).searchParams);

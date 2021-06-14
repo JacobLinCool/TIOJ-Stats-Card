@@ -14,7 +14,7 @@ function not_found_card(parameters) {
     <text transform="translate(100, 113)" style="font-size: 48px; ${
         parameters.animation ? `opacity: 0; animation: fade_in 1 0.3s 0.1s forwards;` : ""
     }">User Not Found</text>
-    <a target="_blank" href="https://github.com/JacobLinCool/tioj-stats-card"><text class="sub" transform="translate(480, 180)" text-anchor="end" style="${
+    <a target="_blank" href="https://github.com/Stats-Card/tioj-stats-card"><text class="sub" transform="translate(480, 180)" text-anchor="end" style="${
         parameters.animation ? `opacity: 0; animation: fade_in 1 0.8s 0.8s forwards;` : ""
     }">TIOJ Status Card</text></a>
 </g>
