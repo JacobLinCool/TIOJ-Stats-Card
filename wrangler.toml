@@ -1,11 +1,13 @@
-name = "tioj-card"
+name = "tioj"
 type = "webpack"
-account_id = "b1c3d1b89f9131a84a0f1f6a973232f1"
+account_id = "897c203117fc45efa64b5eb52b3206e8"
 workers_dev = true
 route = ""
 zone_id = ""
 webpack_config = "webpack.config.js"
-kv_namespaces = []
+kv_namespaces = [
+  { binding = "CACHE", id = "dccd159bcdb343e696f39b354babb175", preview_id = "0bab5b42df054a5a83ca7f1fdf864a97" },
+]
 
 [triggers]
-crons = []
+crons = ["*/5 * * * *"]
