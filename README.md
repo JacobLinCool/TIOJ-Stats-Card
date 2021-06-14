@@ -7,7 +7,7 @@ Show your TIOJ stats on your GitHub profile or your website!
 
 [Try It Now](https://tioj.card.workers.dev/)
 
-[![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang)](https://tioj.card.workers.dev/)
+[![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang&r=5550944)](https://tioj.card.workers.dev/)
 
 ## Usage
 Just copy the code below, paste it into your readme.md, and change the value of `username`.
@@ -45,10 +45,10 @@ Key              |Description                              |Default Value    |Re
 Now we only have 2 styles (and 1 beta style). If you have any great idea, please let me know. Also, any PR or Issue with cool features or styles are welcome!
 
 #### Default
-![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang&style=default)
+![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang&style=default&r=5550944)
 
 #### Dark
-![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang&style=dark)
+![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang&style=dark&r=5550944)
 
 #### Auto (Beta)
-![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang&style=auto)
+![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang&style=auto&r=5550944)
