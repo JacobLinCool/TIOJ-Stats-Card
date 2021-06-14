@@ -1,9 +1,8 @@
 import { default_style } from "./style/default.js";
 import { dark_style } from "./style/dark.js";
 import { animations, animation_style, circle_animation } from "./style/animation.js";
-import { extension_style } from "./style/extension.js";
 
-function style(parameters, data) {
+function style({ data, parameters }) {
     let css = "";
     default_style.forEach((rule) => {
         css += `${rule[0]}{${Object.entries(rule[1])
@@ -37,8 +36,10 @@ function style(parameters, data) {
         });
         css += animations;
 
-        css += circle_animation("#tried_circle", 100 * Math.PI * (data.problem.tried / data.problem.total), 0.7);
-        css += circle_animation("#solved_circle", 100 * Math.PI * (data.problem.solved / data.problem.total), 1.3);
+        if (data) {
+            css += circle_animation("#tried_circle", 100 * Math.PI * (data.problem.tried / data.problem.total), 0.7);
+            css += circle_animation("#solved_circle", 100 * Math.PI * (data.problem.solved / data.problem.total), 1.3);
+        }
     }
 
     if (parameters.extension) {

@@ -4,7 +4,7 @@ import { style } from "./style.js";
 
 function tioj_card(data, parameters) {
     const [svg_start_tag, svg_close_tag] = svg_tag(parameters.width, parameters.height, 500, 200);
-    let svg_data = `${svg_start_tag}<title>${data.username} | TIOJ Stats Card</title><style>${style(parameters, data)}</style>
+    let svg_data = `${svg_start_tag}<title>${data.username} | TIOJ Stats Card</title><style>${style({ data, parameters })}</style>
 <g class="tioj_stats_card theme_${parameters.style}">
     <rect id="background" stroke="lightgray" stroke-width="${parameters.border}" width="${500 - parameters.border}" height="${200 - parameters.border}" x="${
         parameters.border / 2
@@ -34,6 +34,7 @@ function tioj_card(data, parameters) {
         </g>
         <g id="activity" transform="translate(160, 0)">
             ${data.activity.slice(0, 5).reduce((text, submission, i) => {
+                submission.time = new Date(submission.time);
                 return (
                     text +
                     `

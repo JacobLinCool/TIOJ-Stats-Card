@@ -5,7 +5,7 @@ import { style } from "./style.js";
 function not_found_card(parameters) {
     const [svg_start_tag, svg_close_tag] = svg_tag(500, 200, 500, 200);
     return `${svg_start_tag}
-<style>${style(parameters)}</style>
+<style>${style({ parameters })}</style>
 <g class="tioj_stats_card theme_${parameters.style}">
     <rect id="background" stroke="lightgray" stroke-width="${parameters.border}" width="${500 - parameters.border}" height="${200 - parameters.border}" x="${
         parameters.border / 2

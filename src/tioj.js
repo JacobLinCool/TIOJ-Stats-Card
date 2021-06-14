@@ -1,13 +1,31 @@
 const baseurl = "https://tioj.ck.tp.edu.tw";
+let DEBUG = {
+    user_data: null,
+    user_activity: null,
+    rank_page: {},
+};
 
 async function user_data(username) {
-    let user_raw = await fetch(`${baseurl}/users/${username}`, {
-        headers: {
-            origin: baseurl,
-            referer: `${baseurl}/users/${username}`,
-            "user-agent": "Mozilla/5.0 TIOJ Stats Card",
-        },
-    });
+    let debug = Date.now();
+    let cache_key = new Request(`${baseurl}/users/${username}`);
+    let cache = caches.default;
+
+    let user_raw = await cache.match(cache_key);
+
+    if (!user_raw) {
+        user_raw = await fetch(`${baseurl}/users/${username}`, {
+            headers: {
+                origin: baseurl,
+                referer: `${baseurl}/users/${username}`,
+                "user-agent": "Mozilla/5.0 TIOJ Stats Card",
+            },
+        });
+
+        user_raw = new Response(user_raw.body, user_raw);
+        user_raw.headers.append("Cache-Control", "s-maxage=300");
+
+        await cache.put(cache_key, user_raw.clone());
+    }
 
     const user_data_raw = await user_raw.text();
 
@@ -46,6 +64,8 @@ async function user_data(username) {
         _user_id = problem[3];
     });
 
+    DEBUG.user_data = Date.now() - debug;
+
     return {
         name: _name,
         username: _username,
@@ -57,13 +77,26 @@ async function user_data(username) {
 }
 
 async function user_activity(user_id) {
-    let activity_raw = await fetch(`${baseurl}/submissions?filter_user_id=${user_id}`, {
-        headers: {
-            origin: baseurl,
-            referer: `${baseurl}/submissions?filter_user_id=${user_id}`,
-            "user-agent": "Mozilla/5.0 TIOJ Stats Card",
-        },
-    });
+    let debug = Date.now();
+    let cache_key = new Request(`${baseurl}/submissions?filter_user_id=${user_id}`);
+    let cache = caches.default;
+
+    let activity_raw = await cache.match(cache_key);
+
+    if (!activity_raw) {
+        activity_raw = await fetch(`${baseurl}/submissions?filter_user_id=${user_id}`, {
+            headers: {
+                origin: baseurl,
+                referer: `${baseurl}/submissions?filter_user_id=${user_id}`,
+                "user-agent": "Mozilla/5.0 TIOJ Stats Card",
+            },
+        });
+
+        activity_raw = new Response(activity_raw.body, activity_raw);
+        activity_raw.headers.append("Cache-Control", "s-maxage=300");
+
+        await cache.put(cache_key, activity_raw.clone());
+    }
 
     const user_activity_raw = await activity_raw.text();
 
@@ -83,17 +116,32 @@ async function user_activity(user_id) {
         });
     });
 
-    return submissions;
+    DEBUG.user_activity = Date.now() - debug;
+
+    return submissions.slice(0, 6);
 }
 
 async function rank_page(n = 1) {
-    let page_raw = await fetch(`${baseurl}/users?page=${n}`, {
-        headers: {
-            origin: baseurl,
-            referer: `${baseurl}/users?page=${n}`,
-            "user-agent": "Mozilla/5.0 TIOJ Stats Card",
-        },
-    });
+    let debug = Date.now();
+    let cache_key = new Request(`${baseurl}/users?page=${n}`);
+    let cache = caches.default;
+
+    let page_raw = await cache.match(cache_key);
+
+    if (!page_raw) {
+        page_raw = await fetch(`${baseurl}/users?page=${n}`, {
+            headers: {
+                origin: baseurl,
+                referer: `${baseurl}/users?page=${n}`,
+                "user-agent": "Mozilla/5.0 TIOJ Stats Card",
+            },
+        });
+
+        page_raw = new Response(page_raw.body, page_raw);
+        page_raw.headers.append("Cache-Control", "s-maxage=600");
+
+        await cache.put(cache_key, page_raw.clone());
+    }
 
     const page = await page_raw.text();
 
@@ -105,6 +153,8 @@ async function rank_page(n = 1) {
     ].forEach((row) => {
         map[row[2]] = Number(row[1]);
     });
+
+    DEBUG.rank_page[n] = Date.now() - debug;
 
     return map;
 }
@@ -123,13 +173,14 @@ function language(raw) {
 }
 
 async function tioj_data(username) {
+    DEBUG.GENERATOR_START_TIME = new Date();
     const pages = Promise.all([rank_page(1), rank_page(2), rank_page(3), rank_page(4)]);
     const user = await user_data(username);
     const activity = await user_activity(user.user_id);
 
     const rank = (await pages).reduce((a, b) => Object.assign({}, a, b), {});
-    rank;
 
+    DEBUG.GENERATOR_END_TIME = new Date();
     return {
         username: user.username || null,
         profile: {
@@ -145,6 +196,7 @@ async function tioj_data(username) {
             tried: user.problems.success.length + user.problems.warning.length,
         },
         activity: activity,
+        _DEBUG: DEBUG,
     };
 }
 
