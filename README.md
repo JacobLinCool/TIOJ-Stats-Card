@@ -1,19 +1,19 @@
 # TIOJ Stats Card
-Inspired By [LeetCode Stats Card](https://github.com/JacobLinCool/leetcode-stats-card). :)
+Inspired By [LeetCode Stats Card](https://github.com/Stats-Card/leetcode-stats-card). :)
 
 A simple tool for every TIOJ Coder.
 
 Show your TIOJ stats on your GitHub profile or your website!
 
-[Try It Now](https://tioj-card.jacob.workers.dev/)
+[Try It Now](https://tioj.card.workers.dev/)
 
-[![TIOJ Stats](https://tioj-card.jacob.workers.dev/?username=casperwang)](https://tioj-card.jacob.workers.dev/)
+[![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang)](https://tioj.card.workers.dev/)
 
 ## Usage
 Just copy the code below, paste it into your readme.md, and change the value of `username`.
 
 ```md
-![TIOJ Stats](https://tioj-card.jacob.workers.dev/?username=casperwang)
+![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang)
 ```
 
 Congratulation! You are now showing your TIOJ stats on your profile!
@@ -21,13 +21,13 @@ Congratulation! You are now showing your TIOJ stats on your profile!
 Want hyperlink? Try this:
 
 ```md
-[![TIOJ Stats](https://tioj-card.jacob.workers.dev/?username=casperwang)](https://tioj.ck.tp.edu.tw/users/casperwang)
+[![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang)](https://tioj.ck.tp.edu.tw/users/casperwang)
 ```
 
 ### Endpoint
 The endpoint of this awesome tool is: 
 
-[https://tioj-card.jacob.workers.dev/](https://tioj-card.jacob.workers.dev/)
+[https://tioj.card.workers.dev/](https://tioj.card.workers.dev/)
 
 ### Parameters
 
@@ -45,10 +45,10 @@ Key              |Description                              |Default Value    |Re
 Now we only have 2 styles (and 1 beta style). If you have any great idea, please let me know. Also, any PR or Issue with cool features or styles are welcome!
 
 #### Default
-![TIOJ Stats](https://tioj-card.jacob.workers.dev/?username=casperwang&style=default)
+![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang&style=default)
 
 #### Dark
-![TIOJ Stats](https://tioj-card.jacob.workers.dev/?username=casperwang&style=dark)
+![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang&style=dark)
 
 #### Auto (Beta)
-![TIOJ Stats](https://tioj-card.jacob.workers.dev/?username=casperwang&style=auto)
+![TIOJ Stats](https://tioj.card.workers.dev/?username=casperwang&style=auto)

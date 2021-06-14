@@ -3,7 +3,7 @@ const html = `
 <html>
     <head>
         <meta charset="UTF-8" />
-        <link rel="icon" href="https://raw.githubusercontent.com/JacobLinCool/tioj-stats-card/main/favicon/tioj.ico" />
+        <link rel="icon" href="https://raw.githubusercontent.com/Stats-Card/tioj-stats-card/main/favicon/tioj.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>TIOJ Stats Card</title>
         <meta property="og:title" content="TIOJ Stats Card" />
@@ -23,11 +23,11 @@ const html = `
             <button onclick="md()">Markdwon</button>
         </div>
         <div>
-            <img id="preview" src="https://tioj-card.jacob.workers.dev/?username=casperwang"></img>
+            <img id="preview" src="https://tioj.card.workers.dev/?username=casperwang"></img>
         </div>
         <div style="height: 20px;"></div>
         <div>
-            <a href="https://github.com/JacobLinCool/tioj-stats-card">View on GitHub</a>
+            <a href="https://github.com/Stats-Card/tioj-stats-card">View on GitHub</a>
         </div>
         <style>
             html, body {
